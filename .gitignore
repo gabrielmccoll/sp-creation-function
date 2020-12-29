@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# local.settings.json for functions app
+local.settings.json
+
 # Crash log files
 crash.log
 
