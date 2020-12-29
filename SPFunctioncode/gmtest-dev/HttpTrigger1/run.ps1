@@ -4,8 +4,6 @@ using namespace System.Net
 param($Request, $TriggerMetadata)
 
 <# YOU one need this part if you're going to use msgraph functions too
-
-
 # Get Managed Service Identity info from Azure Functions Application Settings
 $msiEndpoint = $env:MSI_ENDPOINT
 $msiSecret = $env:MSI_SECRET
@@ -20,11 +18,11 @@ $tokenResponse = Invoke-RestMethod –Method Get –Headers @{"Secret"="$msiSecr
 $body = $tokenResponse.access_token
 # This response should give us a Bearer Token for later use in Graph API calls
 $body = $msiEndpoint
-$aadToken = $tokenResponse.access_token
-#>$context = Get-AzContext
-$aadToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate($context.Account, $context.Environment, $context.Tenant.Id.ToString(), $null, [Microsoft.Azure.Commands.Common.Authentication.ShowDialog]::Never, $null, "https://graph.windows.net").AccessToken
+$msToken = $tokenResponse.access_token
+#>
 
-
+$context = Get-AzContext
+$aadToken = (Get-AzAccessToken -ResourceTypeName AadGraph).token
 
 #You will need to upload this using Kudu or similar
 Import-Module "D:\Home\Site\wwwroot\HttpTrigger1\modules\AzureAD.Standard.Preview\0.0.0.10\AzureAD.Standard.Preview.psd1"
