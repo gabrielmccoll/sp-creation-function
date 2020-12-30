@@ -11,7 +11,7 @@ $aadToken = (Get-AzAccessToken -ResourceTypeName AadGraph).token
 #You will need to upload this using Kudu or similar
 Import-Module "D:\Home\Site\wwwroot\HttpTrigger1\modules\AzureAD.Standard.Preview\0.0.0.10\AzureAD.Standard.Preview.psd1"
 Connect-AzureAD -AadAccessToken $aadToken -AccountId $context.Account.Id -TenantId $context.tenant.id -verbose
-$testadconnect = Get-AzureADDomain -ErrorAction SilentlyContinue
+$testadconnect = Get-AzureADApplication -ErrorAction SilentlyContinue
 if ($testadconnect) { #Check connected Azure AD 
         
     # Write to the Azure Functions log stream.
