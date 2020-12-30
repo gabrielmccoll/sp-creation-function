@@ -32,10 +32,15 @@ if ($testadconnect) { #Check connected Azure AD
             $testappexists = Get-AzADApplication -DisplayName $spDisplayName
             if (-not $testappexists) {
                 $sp = New-AzADServicePrincipal -SkipAssignment -DisplayName $spDisplayName -EndDate (get-date).AddMinutes(5)
-                $body = $sp
-                $ServicePrincipalId = (Get-AzADApplication -ApplicationId $sp.ApplicationId).ObjectId
-                $OwnerId = $owner.Id
-                Add-AzureADApplicationOwner -ObjectId $ServicePrincipalId -RefObjectId $OwnerId
+                if ($sp) { 
+                    $body = $sp
+                    $ServicePrincipalId = (Get-AzADApplication -ApplicationId $sp.ApplicationId).ObjectId
+                    $OwnerId = $owner.Id
+                    Add-AzureADApplicationOwner -ObjectId $ServicePrincipalId -RefObjectId $OwnerId
+                }
+                else {
+                    $body = "There was a problem creating the Service Principal, though the app has likely been created"
+                }
             }
             else {$body = "This app and service principal already exists `n`n To get details : Get-AzADApplication -DisplayName $spDisplayName"}
         }
