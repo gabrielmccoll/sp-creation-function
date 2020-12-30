@@ -1,25 +1,7 @@
 using namespace System.Net
-#Testupdate
+
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
-
-<# YOU one need this part if you're going to use msgraph functions too
-# Get Managed Service Identity info from Azure Functions Application Settings
-$msiEndpoint = $env:MSI_ENDPOINT
-$msiSecret = $env:MSI_SECRET
-
-# Specify URI and Token AuthN Request Parameters
-$apiVersion = "2017-09-01"
-$resourceURI = "https://graph.microsoft.com"
-$tokenAuthURI = $msiEndpoint + "?resource=$resourceURI&api-version=$apiVersion"
-
-# Authenticate with MSI and get Token
-$tokenResponse = Invoke-RestMethod –Method Get –Headers @{"Secret"="$msiSecret"} –Uri $tokenAuthURI
-$body = $tokenResponse.access_token
-# This response should give us a Bearer Token for later use in Graph API calls
-$body = $msiEndpoint
-$msToken = $tokenResponse.access_token
-#>
 
 $context = Get-AzContext
 $aadToken = (Get-AzAccessToken -ResourceTypeName AadGraph).token
