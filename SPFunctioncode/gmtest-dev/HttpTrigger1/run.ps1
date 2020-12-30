@@ -2,7 +2,9 @@ using namespace System.Net
 
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
-
+Disable-AzContextAutosave -Scope Process | Out-Null
+Clear-AzContext -force
+Connect-AzAccount -Identity
 $context = Get-AzContext
 $aadToken = (Get-AzAccessToken -ResourceTypeName AadGraph).token
 
